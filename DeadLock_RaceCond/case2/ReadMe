@@ -1,0 +1,16 @@
+case2:
+
+open + ioctrl + write + ioctrl
+
+1. There are 3 threads: T0, T1, T2.
+
+2. Main thread opens a file in mode 1. T2 changes mode into mode 2, T1 write "Hello Device Driver!" into file and read
+from the file. 
+
+3. Note that there are 2 files opened in mode 2. So, devc->count == 2. T0 tries to change mode into mode 1, however
+it cannot proceed because ioctl waits until only 1 file in mode 2 exists. 
+
+4. File can only be closed when program reaches to pthread_join(), which will not happen because T0 should
+terminate first but it can not.
+
+5. Therefore, a deadlock occurs.

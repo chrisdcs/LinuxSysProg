@@ -1,0 +1,11 @@
+case1:
+
+open + open + ioctl
+
+1. Create 2 threads. T0 opens a device and T1 opens an other device then change mode 1 to mode 2.
+
+2. Because mode1 can only be changed to mode 2 only when there is one file in mode 1 exits, or in another word, 
+devc->count1 == 1. However, we opened 2 files in mode 1. 
+
+3. Only when program reach pthread_join() can devc->count1 be decremented to 1. But it is not happening, because 
+T1 will terminate first, which sleeps due to waiting devc->count1 to decrement. Therefore, a deadlock occurs

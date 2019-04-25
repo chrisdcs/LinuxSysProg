@@ -1,0 +1,16 @@
+All drivers and test files are tested on lubuntu 18.04 system.
+
+Each cases are provided in different folders.
+
+For each folder, type command in terminal: make all
+
+Then:
+sudo insmod driver_case<i>.ko
+sudo ./case<i>
+
+To run the test program using driver provided.
+
+Deadlock will be encountered for each case test file. When testing each case, driver must be loaded again using the 
+corresponding driver for each case.
+
+Code review is provided under this directory.

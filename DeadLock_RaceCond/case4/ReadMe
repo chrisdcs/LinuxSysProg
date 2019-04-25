@@ -1,0 +1,22 @@
+case4:
+
+open + ioctl + open + ioctl + read
+
+1. The device file is opened (Mode 1) from main thread. 
+
+2. The mode is changed to mode 2 using ioctl.  
+
+3. Another file is opened in the main thread (mode is 2).  
+
+4. There are two threads T0 and T1 which share a common global buffer which is protected by a lock.  
+
+5. T0 operates on one file (fd=3) while T1 operates on the other file (fd=4).  
+
+6. T1 acquires the lock first and copies the string from global buffer and writes it to the device.  
+
+7. Next, it does ioctl to Mode 1, but it cannot complete as count2 is greater than 1, so T1 sleeps.  
+
+8. T0 is processed next, it tries to acquire the lock so that it can read from the device and copy it to the global buffer. 
+But it cannot, as the lock is already held by T1.  
+
+9. Therefore, a deadlock occurs.  

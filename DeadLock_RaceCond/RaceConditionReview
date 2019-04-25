@@ -1,0 +1,42 @@
+1. Race condition 1
+	Critical region 1: devc->count1++;
+	Critical region 2: devc->count1- -;
+			         if (devc->count1 == 1)
+	Lock: devc->sem1
+	Reasoning: these critical region are in the open, release and e2_ioctl functions. Race condition can happen in this 
+	case because during the mode switch process, it actually updating the same semaphore which may cause several 
+	threads try to increase or decrease the value of  count1 in parallel, and thus a race condition could occur. 
+
+2. Race condition 2
+	Critical region 1: devc->count2++;
+	Critical region 2: devc->count2- -;
+			         if (devc->count2 == 1)
+	Lock: devc->sem2
+	Reasoning: can be same as race conditon 1. these critical region are in the open, release and e2_ioctl functions. 
+	Race condition can happen in this case because during the mode switch process, it actually updating the same 
+	semaphore which may cause several threads try to increase or decrease the value of  count2 in parallel, and thus a 
+	race condition could occur. 
+
+3. Race condition 3
+	Critical region: if (*f_pos + count > ramdisk_size) {
+            			  printk("Trying to read past end of buffer!\n");
+        				  return ret;
+           			   }
+			   ret = count - copy_to_user(buf, devc->ramdisk, count);
+
+	Lock: up(&devc->sem1);
+	Reasoning: this critical region is in the read/write functions of mode 1. Because before entering the critical region, 
+	it’s unlocking the lock by using up(&devc→sem1); both during read and write function, which may cause write 
+	function writing to this critical region during reading it and a race condition happens.
+
+4. Race condition 4
+	Critical region:   if (*f_pos + count > ramdisk_size) {
+             			printk("Trying to read past end of buffer!\n");
+             			up(&devc→sem1);
+			     }
+			     ret = count - copy_to_user(buf, devc->ramdisk, count);
+
+	Lock: devc->sem1
+	Reasoning: this critical region is in the read/write function of mode 2. Race condition can happen when switching 
+	from mode 1 to mode 2 if model 1 just excute up(&devc→sem1); and unlock the lock, then multiple 
+	threads/processes can get access to this critical region and read/write to it and a race condition will occur.

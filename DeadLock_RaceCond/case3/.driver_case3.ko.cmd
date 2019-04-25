@@ -1,0 +1,1 @@
+cmd_/home/chris/Documents/asp/hw6/case3/driver_case3.ko := ld -r -m elf_x86_64 -z max-page-size=0x200000 -T ./scripts/module-common.lds --build-id  -o /home/chris/Documents/asp/hw6/case3/driver_case3.ko /home/chris/Documents/asp/hw6/case3/driver_case3.o /home/chris/Documents/asp/hw6/case3/driver_case3.mod.o ;  true

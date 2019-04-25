@@ -1,0 +1,21 @@
+case3:
+
+read + sleep + write
+
+1.There are 2 threads, T0 and T1.  
+
+2.Both of the threads share a common mutex lock in the userapp. 
+ 
+3.T1 gets launched and reads from the device.  
+
+4.It acquires the semaphore to read mode from the device, but sleeps after that (sleeps on line 100 of driver code).
+  
+5.The context is changed to T0 while T1 sleeps. The T0 acquires the mutex lock and writes to the 
+device by copying from the protected global buffer.  
+
+6.It cannot finish as T1 has locked the semaphore to read the mode and is sleeping.  
+
+7.The context again changes to T0, which wakes up and completes read but cannot proceed as it tries to 
+acquire the mutex lock in the userapp which was already acquired by T1.  
+
+8.So, a deadlock occurs. 
