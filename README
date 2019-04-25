@@ -2,4 +2,8 @@ Advanced System programming:
 
 This project deals with deadlock, concurrency issues in terms of both user level interface and device driver.
 
+All the code are developed under Ubuntu 18.04 version. If the code is run in other version, it may not work. 
+
+Further debug will be done in the future.
+
 There are 7 assignments for this course.
