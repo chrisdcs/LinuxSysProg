@@ -1,0 +1,5 @@
+run command in terminal: make
+then run command in terminal: chmod +x load.sh
+then run command in terminal: ./load.sh
+enjoy!
+
