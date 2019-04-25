@@ -1,6 +1,6 @@
 # Advanced System programming:
 
-This project deals with deadlock, concurrency issues in terms of both user level interface and device driver.
+This project deals with deadlock, concurrency issues in terms of both **user level interface** and lower level **device driver**.
 
 All the code are developed under Ubuntu 18.04 version. If the code is run in other version, it may not work. 
 
